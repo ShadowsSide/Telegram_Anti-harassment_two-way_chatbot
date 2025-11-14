@@ -1,0 +1,43 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class Config:
+    
+    BOT_TOKEN = os.getenv('BOT_TOKEN')
+    BOT_ID = None 
+    FORUM_GROUP_ID = int(os.getenv('FORUM_GROUP_ID', 0))
+    ADMIN_IDS = [int(id) for id in os.getenv('ADMIN_IDS', '').split(',') if id]
+    
+    
+    GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+    ENABLE_AI_FILTER = os.getenv('ENABLE_AI_FILTER', 'true').lower() == 'true'
+    AI_CONFIDENCE_THRESHOLD = int(os.getenv('AI_CONFIDENCE_THRESHOLD', '70'))
+    
+    
+    VERIFICATION_ENABLED = os.getenv('VERIFICATION_ENABLED', 'true').lower() == 'true'
+    AUTO_UNBLOCK_ENABLED = os.getenv('AUTO_UNBLOCK_ENABLED', 'true').lower() == 'true'
+    
+    
+    DATABASE_PATH = os.getenv('DATABASE_PATH', './data/bot.db')
+    
+    
+    MAX_WORKERS = int(os.getenv('MAX_WORKERS', '5'))
+    QUEUE_TIMEOUT = int(os.getenv('QUEUE_TIMEOUT', '30'))
+    
+    
+    VERIFICATION_TIMEOUT = int(os.getenv('VERIFICATION_TIMEOUT', '300'))
+    MAX_VERIFICATION_ATTEMPTS = int(os.getenv('MAX_VERIFICATION_ATTEMPTS', '3'))
+    
+    @classmethod
+    def validate(cls):
+        if not cls.BOT_TOKEN:
+            raise ValueError("BOT_TOKEN未设置")
+        if not cls.FORUM_GROUP_ID:
+            raise ValueError("FORUM_GROUP_ID未设置")
+        if not cls.ADMIN_IDS:
+            raise ValueError("ADMIN_IDS未设置")
+
+
+config = Config()
