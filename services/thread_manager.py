@@ -15,7 +15,7 @@ async def get_or_create_thread(update: Update, context: ContextTypes.DEFAULT_TYP
         return user_data['thread_id'], False
     
     
-    topic_name = f"👤 {user.first_name} (ID: {user.id})"
+    topic_name = f"{user.first_name} (ID: {user.id})"
     try:
         topic = await context.bot.create_forum_topic(
             chat_id=config.FORUM_GROUP_ID,

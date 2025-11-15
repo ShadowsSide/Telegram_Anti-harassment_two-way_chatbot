@@ -8,7 +8,6 @@ from services.gemini_service import gemini_service
 pending_verifications = {}
 
 async def create_verification(user_id: int):
-    """创建验证"""
     challenge = await gemini_service.generate_verification_challenge()
     question = challenge['question']
     correct_answer = challenge['correct_answer']
@@ -48,7 +47,7 @@ async def verify_answer(user_id: int, answer: str):
     if answer == verification['answer']:
         del pending_verifications[user_id]
         await db.update_user_verification(user_id, is_verified=True)
-        return True, "验证成功！您的消息已发送。", False
+        return True, "验证成功！", False
     
     if verification['attempts'] >= config.MAX_VERIFICATION_ATTEMPTS:
         del pending_verifications[user_id]
@@ -56,7 +55,7 @@ async def verify_answer(user_id: int, answer: str):
         await db.add_to_blacklist(user_id, reason="人机验证失败次数过多", blocked_by=config.BOT_ID)
         message = (
             "验证失败次数过多，您已被暂时阻止。\n\n"
-            "如果您是真人，请重新发送消息并进行验证解除限制。"
+            "如果您是认为误封，请重新发送消息并进行验证解除限制。"
         )
         return False, message, True
     

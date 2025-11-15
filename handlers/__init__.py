@@ -2,7 +2,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQu
 from .command_handler import start, help_command, block, unblock, blacklist, stats
 from .user_handler import handle_message
 from .callback_handler import handle_callback
-from .admin_handler import handle_admin_reply
+from .admin_handler import handle_admin_reply, view_filtered
 from config import config
 
 def register_handlers(app: Application):
@@ -13,6 +13,7 @@ def register_handlers(app: Application):
     app.add_handler(CommandHandler("unblock", unblock))
     app.add_handler(CommandHandler("blacklist", blacklist))
     app.add_handler(CommandHandler("stats", stats))
+    app.add_handler(CommandHandler("view_filtered", view_filtered))
     
     
     app.add_handler(MessageHandler(

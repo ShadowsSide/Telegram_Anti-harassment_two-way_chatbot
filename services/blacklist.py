@@ -43,7 +43,7 @@ async def start_unblock_process(user_id: int):
     ]
     
     return (
-        "您已被拉黑。\n\n"
+        "您已被暂时封禁。\n\n"
         f"如果您认为这是误操作，请回答以下问题以自动解封：\n\n{question}"
     ), InlineKeyboardMarkup(keyboard)
 
@@ -69,10 +69,9 @@ async def verify_unblock_answer(user_id: int, user_answer: str):
         
         await db.add_to_blacklist(user_id, reason="解封验证失败", blocked_by=config.BOT_ID, permanent=True)
         await db.set_user_blacklist_strikes(user_id, 99)
-        return "答案错误，解封失败。您已被永久阻止。", False
+        return "答案错误，解封失败。您已被永久封禁。", False
 
 async def get_blacklist_keyboard():
-    """获取黑名单用户的内联键盘"""
     blacklist_users = await db.get_blacklist()
     if not blacklist_users:
         return "黑名单中没有用户。", None

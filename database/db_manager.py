@@ -34,6 +34,7 @@ class DatabaseManager:
             await self.create_verification_sessions_table(db)
             await self.create_settings_table(db)
             await self.create_statistics_table(db)
+            await self.create_filtered_messages_table(db)
 
             await self.migrate_database(db)
 
@@ -180,6 +181,31 @@ class DatabaseManager:
             )
         ''')
         await db.execute('CREATE INDEX IF NOT EXISTS idx_statistics_date ON statistics(stat_date)')
+
+    async def create_filtered_messages_table(self, db):
+        await db.execute('''
+            CREATE TABLE IF NOT EXISTS filtered_messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                message_id INTEGER NOT NULL,
+                content TEXT,
+                reason TEXT,
+                media_type TEXT,
+                media_file_id TEXT,
+                filtered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+            )
+        ''')
+        await db.execute('CREATE INDEX IF NOT EXISTS idx_filtered_messages_user_id ON filtered_messages(user_id)')
+
+    async def get_filtered_messages_by_user(self, user_id, limit=5):
+        async with self.get_connection() as db:
+            cursor = await db.execute(
+                'SELECT content, reason FROM filtered_messages WHERE user_id = ? ORDER BY filtered_at DESC LIMIT ?',
+                (user_id, limit)
+            )
+            rows = await cursor.fetchall()
+            return [{"content": row[0], "reason": row[1]} for row in rows]
 
     async def migrate_database(self, db):
         

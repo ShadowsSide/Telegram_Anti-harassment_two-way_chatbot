@@ -24,7 +24,7 @@ class MessageQueue:
                     if analysis['is_spam']:
                         await context.bot.send_message(
                             chat_id=user.id,
-                            text=f"⚠️ 您的消息被拦截，原因：{analysis['reason']}"
+                            text=f"您的消息被拦截，原因：{analysis['reason']}"
                         )
                         self.queue.task_done()
                         continue

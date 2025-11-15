@@ -80,3 +80,29 @@ async def handle_admin_reply(update: Update, context: ContextTypes.DEFAULT_TYPE)
     user_id = user['user_id']
     
     await _send_reply_to_user(update, context, user_id)
+
+async def view_filtered(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not await db.is_admin(update.effective_user.id):
+        await update.message.reply_text("您没有权限执行此操作。")
+        return
+
+    args = context.args
+    limit = int(args) if args and args.isdigit() else 20
+    offset = int(args) if args and len(args) > 1 and args.isdigit() else 0
+
+    messages = await db.get_filtered_messages(limit, offset)
+
+    if not messages:
+        await update.message.reply_text("没有找到被过滤的消息。")
+        return
+
+    response = "被过滤的消息:\n\n"
+    for msg in messages:
+        response += (
+            f"用户: {msg['first_name']} (@{msg['username'] or 'N/A'})\n"
+            f"原因: {msg['reason']}\n"
+            f"内容: {msg['content'] or 'N/A'}\n"
+            f"时间: {msg['filtered_at']}\n\n"
+        )
+
+    await update.message.reply_text(response)

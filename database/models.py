@@ -61,6 +61,30 @@ async def save_message(user_id: int, message_id: int, content: str, direction: s
         ''', (user_id, message_id, content, direction, media_type, media_file_id))
         await db.commit()
 
+async def save_filtered_message(user_id: int, message_id: int, content: str, reason: str, media_type: str = None, media_file_id: str = None):
+    async with db_manager.get_connection() as db:
+        await db.execute('''
+            INSERT INTO filtered_messages
+            (user_id, message_id, content, reason, media_type, media_file_id)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (user_id, message_id, content, reason, media_type, media_file_id))
+        await db.commit()
+
+async def get_filtered_messages(limit: int = 20, offset: int = 0):
+    async with db_manager.get_connection() as db:
+        async with db.execute('''
+            SELECT fm.*, u.first_name, u.username
+            FROM filtered_messages fm
+            JOIN users u ON fm.user_id = u.user_id
+            ORDER BY fm.filtered_at DESC
+            LIMIT ? OFFSET ?
+        ''', (limit, offset)) as cursor:
+            rows = await cursor.fetchall()
+            if not rows:
+                return []
+            cols = [description for description in cursor.description]
+            return [dict(zip(cols, row)) for row in rows]
+
 
 
 async def is_blacklisted(user_id: int):

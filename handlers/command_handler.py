@@ -5,7 +5,6 @@ from services.blacklist import block_user, unblock_user, get_blacklist_keyboard
 from utils.decorators import admin_only
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """处理 /start 命令"""
     user = update.effective_user
     
     
@@ -28,7 +27,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(welcome_message)
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """处理 /help 命令"""
     help_text = (
         "这是一个双向聊天机器人。\n\n"
         "功能列表:\n"
@@ -56,7 +54,6 @@ async def blacklist(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @admin_only
 async def block(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """处理 /block 命令"""
     message = update.message
     
     
@@ -89,7 +86,6 @@ async def block(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @admin_only
 async def unblock(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """处理 /unblock 命令"""
     if not context.args:
         await update.message.reply_text("请提供用户ID。用法: /unblock <user_id>")
         return
@@ -103,7 +99,6 @@ async def unblock(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @admin_only
 async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """处理 /stats 命令，显示统计信息"""
     total_users = await db.get_total_users_count()
     blocked_users = await db.get_blocked_users_count()
     

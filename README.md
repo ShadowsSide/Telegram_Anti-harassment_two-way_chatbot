@@ -106,6 +106,18 @@ VERIFICATION_ENABLED=true
 python bot.py
 ```
 
+### 5. (可选) 使用 Docker 运行
+
+如果你安装了 Docker，可以使用以下命令来构建和运行机器人：
+
+```bash
+# 构建 Docker 镜像
+docker build -t telegram-bot .
+
+# 运行 Docker 容器
+docker run -d --name telegram-bot-container --env-file .env telegram-bot
+```
+
 ## 使用指南
 
 ### 获取Bot Token
@@ -231,7 +243,7 @@ python bot.py
 - [x] 人机验证系统
 - [x] 黑名单管理
 - [x] AI集成
-- [ ] 自动识别垃圾信息和恶意内容
+- [x] 自动识别垃圾信息和恶意内容
 - [ ] 多语言支持
 - [ ] Web管理面板
 - [ ] 消息统计分析
