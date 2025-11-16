@@ -250,7 +250,7 @@ python bot.py
   如果这个项目对你有帮助，请给个 Star ⭐️
 </p>
 <p align="center">
-  <a href="https://www.star-history.com/#Hamster-Prime/Telegram_Anti-harassment_two-way_chatbot&type=date&legend=top-left">
+  <a href="https://www.star-history.com/#Hamster-Prime/Telegram_Anti-harassment_two-way_chatbot&type=date&legend=bottom-right">
     <img src="https://api.star-history.com/svg?repos=Hamster-Prime/Telegram_Anti-harassment_two-way_chatbot&type=date&legend=bottom-right" alt="Star History Chart">
   </a>
 </p>
