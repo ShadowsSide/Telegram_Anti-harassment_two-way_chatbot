@@ -28,7 +28,7 @@ docker compose up -d
 > 2、请不要将私聊机器人的 Token 应用到 Watchtower 通知机器人！  
 > 3、请新建一个机器人专用于通知用途！
 
-### 一、删除 .env 配置中，删除下列参数的#注释。
+### 一、在 .env 配置中，删除下列参数的#注释。
 - WATCHTOWER_NOTIFICATIONS
 - WATCHTOWER_NOTIFICATION_URL
 
