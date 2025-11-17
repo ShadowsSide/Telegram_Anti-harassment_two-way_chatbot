@@ -134,6 +134,7 @@ MAX_MESSAGES_PER_SECOND=30
 MAX_GROUP_MESSAGES_PER_MINUTE=20
 
 # -- Watchtower 通知钩子（默认禁用，启用需去除配置的#注释） --
+
 # Watchtower 使用 shoutrrr 作为统一通知系统（支持包括 Telegram 在内的等多种渠道）
 #WATCHTOWER_NOTIFICATIONS=shoutrrr
 
@@ -166,7 +167,8 @@ docker-compose pull
 docker-compose up -d
 ```
 
-[使用 Watchtower 自动更新本项目](watchtower/README.md)
+> [使用 Watchtower 自动更新本项目](watchtower/README.md)
+
 ---
 ### 使用 Docker Run
 
