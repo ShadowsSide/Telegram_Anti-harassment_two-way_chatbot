@@ -16,6 +16,13 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = query.data
     user_id = query.from_user.id
     
+    # 先检查是否是网络测试的回调
+    if data.startswith("nt_"):
+        from network_test.handlers import callback_handler as network_callback_handler
+        handled = await network_callback_handler(update, context)
+        if handled:
+            return
+    
     if data.startswith("verify_"):
         answer = data.split("_", 1)[1]
         success, message, is_banned, new_question = await verify_answer(user_id, answer)

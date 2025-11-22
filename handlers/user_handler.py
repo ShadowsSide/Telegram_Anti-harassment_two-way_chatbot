@@ -14,6 +14,12 @@ async def _resend_message(update: Update, context: ContextTypes.DEFAULT_TYPE, th
     await send_message_by_type(context.bot, update.message, config.FORUM_GROUP_ID, thread_id, True)
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # 先检查是否是网络测试的消息
+    from network_test.handlers import handle_message as network_handle_message
+    handled = await network_handle_message(update, context)
+    if handled:
+        return
+    
     user = update.effective_user
     
     is_over_limit, was_warned = await rate_limiter.check_user_rate_limit(user.id)

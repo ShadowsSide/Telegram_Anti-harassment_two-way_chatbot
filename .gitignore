@@ -27,6 +27,7 @@ env/
 
 # 环境变量
 .env
+network_test_config.json
 
 # 数据库
 data/*.db
@@ -51,3 +52,4 @@ Thumbs.db
 
 # NS.md
 ns.md
+CHANGELOG.md
